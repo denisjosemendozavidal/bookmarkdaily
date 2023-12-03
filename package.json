@@ -4,15 +4,21 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:extension": "npm-watch",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "build:extension": "next build && npm run lint:build",
+    "lint:build": "PowerShell -Command \"Get-ChildItem out/*.html | Foreach { (Get-Content $_) | Foreach-Object { $_ -replace '/_next/', '/assets/' } | Set-Content $_ }\"",
+    "package": "if not exist packages mkdir packages && npm run build:extension && PowerShell -Command \"Compress-Archive -Path out/* -DestinationPath packages/$(Get-Date -Format 'yyyyMMddTHHmmss').zip\""
   },
   "dependencies": {
     "firebase": "^10.7.0",
     "next": "14.0.3",
+    "node-watch": "^0.7.4",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "sed": "^0.0.2"
   },
   "devDependencies": {
     "@types/node": "^20",

@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "Bookmark Daily",
+  "short_name": "Bookmarked",
+  "version": "1.0.0",
+  "description": "Keep your bookmarked pages clean from unused Bookmarks",
+  "icons": {
+    "16": "../favicon.ico",
+    "32": "../favicon.ico",
+    "48": "../favicon.ico",
+    "128": "../favicon.ico",
+    "192": "../favicon.ico"
+  },
+  "permissions": ["activeTab"],
+  "content_scripts": [
+    {
+      "matches": ["https://*/*", "http://*/*"]
+    }
+  ],
+  "action": {
+    "default_popup": "extensionpopup.tsx"
+  }
+}
