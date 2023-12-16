@@ -22,7 +22,7 @@ function turningBookmarkDailyOn() {
           const response = await fetch(
             "https://bookmarkdaily.vercel.app/api/backendForExtensionCalls",
             {
-              method: "POST", //
+              method: "POST",
               headers: {
                 "Content-Type": "application/json",
               },
@@ -36,9 +36,7 @@ function turningBookmarkDailyOn() {
           console.error("Error:", error);
         }
       }
-
-      const data = { username: "example" };
-      postJSON(data);
+      postJSON(recentlyAdded);
     });
 }
 
