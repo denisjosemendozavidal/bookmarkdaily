@@ -17,6 +17,13 @@ function turningBookmarkDailyOn() {
   const recentlyAdded = chrome.bookmarks
     .getRecent(1000)
     .then((recentlyAdded) => {
+      fetch("https://bookmarkdaily.vercel.app/api/backendForExtensionCalls")
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Response from API call: ", data);
+        })
+        .catch((error) => console.error("Error fetching data: ", error));
+
       console.log(recentlyAdded);
       const dateAddedFirstBookmark = recentlyAdded[0];
       const dateConversionFirstBookMark = new Date(
