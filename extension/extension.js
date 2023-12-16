@@ -17,29 +17,29 @@ function turningBookmarkDailyOn() {
   const recentlyAdded = chrome.bookmarks
     .getRecent(1000)
     .then((recentlyAdded) => {
-      fetch("https://bookmarkdaily.vercel.app/api/backendForExtensionCalls")
-        .then((response) => response.json())
-        .then((data) => {
-          console.log("Response from API call: ", data);
-        })
-        .catch((error) => console.error("Error fetching data: ", error));
+      async function postJSON(data) {
+        try {
+          const response = await fetch(
+            "https://bookmarkdaily.vercel.app/api/backendForExtensionCalls",
+            {
+              method: "POST", //
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(data),
+            }
+          );
 
-      console.log(recentlyAdded);
-      const dateAddedFirstBookmark = recentlyAdded[0];
-      const dateConversionFirstBookMark = new Date(
-        dateAddedFirstBookmark.dateAdded
-      );
+          const result = await response.json();
+          console.log("Success:", result);
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      }
 
-      const dateFirstBookMarkUSFormat =
-        dateConversionFirstBookMark.toLocaleDateString("en-US", {
-          month: "2-digit",
-          day: "2-digit",
-          year: "numeric",
-        });
-      console.log("First Bookmark was added on: ", dateFirstBookMarkUSFormat);
+      const data = { username: "example" };
+      postJSON(data);
     });
-
-  console.log(recentlyAdded);
 }
 
 onButton.addEventListener("click", turningBookmarkDailyOn);
@@ -47,7 +47,6 @@ onButton.addEventListener("click", turningBookmarkDailyOn);
 //Off Function
 
 function turningBookmarkDailyOff() {
-  console.log("Turning it on");
   offButton.style.display = "none";
   onButton.style.display = "flex";
 }

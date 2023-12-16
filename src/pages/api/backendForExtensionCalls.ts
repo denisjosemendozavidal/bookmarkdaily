@@ -6,15 +6,12 @@ const cors = Cors({
   origin: "*",
 });
 
-// Define a type for the middleware function
 type Middleware = (
   req: NextApiRequest,
   res: NextApiResponse,
   fn: (result: any) => void
 ) => void;
 
-// Helper method to wait for a middleware to execute before continuing
-// And to throw an error if anything goes wrong
 const runMiddleware = (
   req: NextApiRequest,
   res: NextApiResponse,
@@ -38,9 +35,27 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  // Run the middleware
   await runMiddleware(req, res, cors);
 
-  // Rest of your API logic
+  console.log("Received data:", req.body);
+
   res.status(200).json({ success: "Success" });
 }
+
+/*
+console.log(recentlyAdded);
+      const dateAddedFirstBookmark = recentlyAdded[0];
+      const dateConversionFirstBookMark = new Date(
+        dateAddedFirstBookmark.dateAdded
+      );
+
+      const dateFirstBookMarkUSFormat =
+        dateConversionFirstBookMark.toLocaleDateString("en-US", {
+          month: "2-digit",
+          day: "2-digit",
+          year: "numeric",
+        });
+      console.log("First Bookmark was added on: ", dateFirstBookMarkUSFormat);
+
+
+*/
