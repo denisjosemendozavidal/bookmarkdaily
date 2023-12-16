@@ -3,21 +3,16 @@
   "name": "Bookmark Daily",
   "short_name": "Bookmarked",
   "version": "1.0.0",
-  "description": "Keep your bookmarked pages clean from unused Bookmarks",
+  "description": "Keep your bookmarked pages clean from unused Bookmarks!",
   "icons": {
-    "16": "../favicon.ico",
-    "32": "../favicon.ico",
-    "48": "../favicon.ico",
-    "128": "../favicon.ico",
-    "192": "../favicon.ico"
+    "16": "images/icon.jpeg",
+    "32": "images/icon.jpeg",
+    "48": "images/icon.jpeg",
+    "128": "images/icon.jpeg",
+    "192": "images/icon.jpeg"
   },
-  "permissions": ["activeTab"],
-  "content_scripts": [
-    {
-      "matches": ["https://*/*", "http://*/*"]
-    }
-  ],
+  "permissions": ["bookmarks"],
   "action": {
-    "default_popup": "extensionpopup.tsx"
+    "default_popup": "extension.html"
   }
 }

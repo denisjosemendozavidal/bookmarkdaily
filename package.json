@@ -7,10 +7,7 @@
     "dev:extension": "npm-watch",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "build:extension": "next build && npm run lint:build",
-    "lint:build": "PowerShell -Command \"Get-ChildItem out/*.html | Foreach { (Get-Content $_) | Foreach-Object { $_ -replace '/_next/', '/assets/' } | Set-Content $_ }\"",
-    "package": "if not exist packages mkdir packages && npm run build:extension && PowerShell -Command \"Compress-Archive -Path out/* -DestinationPath packages/$(Get-Date -Format 'yyyyMMddTHHmmss').zip\""
+    "lint": "next lint"
   },
   "dependencies": {
     "firebase": "^10.7.0",
