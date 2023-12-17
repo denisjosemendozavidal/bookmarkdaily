@@ -8,6 +8,35 @@ const onButton = document.getElementById("onbutton");
 const offButton = document.getElementById("offbutton");
 offButton.style.display = "none";
 
+//API call function
+async function postJSON(data) {
+  try {
+    const response = await fetch(
+      "https://bookmarkdaily.vercel.app/api/backendForExtensionCalls",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }
+    );
+
+    const result = await response.json();
+    console.log("Success:", result);
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
+
+//Filtering data function. Will only return those records with a DateLastUsed value
+
+const filteringData = (dataUnFiltered) => {
+  return dataUnFiltered.filter(
+    (bookmark) => bookmark.dateLastUsed !== undefined
+  );
+};
+
 //On Function
 
 function turningBookmarkDailyOn() {
@@ -17,26 +46,11 @@ function turningBookmarkDailyOn() {
   const recentlyAdded = chrome.bookmarks
     .getRecent(1000)
     .then((recentlyAdded) => {
-      async function postJSON(data) {
-        try {
-          const response = await fetch(
-            "https://bookmarkdaily.vercel.app/api/backendForExtensionCalls",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(data),
-            }
-          );
+      console.log(recentlyAdded);
+      const filteredData = filteringData(recentlyAdded);
+      console.log(filteredData);
 
-          const result = await response.json();
-          console.log("Success:", result);
-        } catch (error) {
-          console.error("Error:", error);
-        }
-      }
-      postJSON(recentlyAdded);
+      postJSON(filteredData);
     });
 }
 
