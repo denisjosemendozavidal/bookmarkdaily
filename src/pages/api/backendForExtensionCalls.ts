@@ -1,4 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import { initializeApp, getApps } from "firebase/app";
+import { getFirestore, collection, addDoc } from "firebase/firestore";
 import Cors from "cors";
 
 type BookmarkDataFromExtension = {
@@ -10,6 +12,21 @@ type BookmarkDataFromExtension = {
   title: string;
   url: string;
 };
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAQA47I6tZg-BhfN0mBUEHHcgVpD9akyVs",
+  authDomain: "bookmarkdailydenis.firebaseapp.com",
+  projectId: "bookmarkdailydenis",
+  storageBucket: "bookmarkdailydenis.appspot.com",
+  messagingSenderId: "506285069956",
+  appId: "1:506285069956:web:edf9ec3099f8adf0b0d4d1",
+};
+
+if (getApps().length === 0) {
+  initializeApp(firebaseConfig);
+}
+
+const db = getFirestore();
 
 const cors = Cors({
   methods: ["GET", "POST"],
@@ -61,6 +78,15 @@ const sendingDataToBackEnd = async (data: BookmarkDataFromExtension[]) => {
   });
 
   console.log("Formatted Data to send to backend:", formattedData);
+
+  for (const singleBookmark of formattedData) {
+    try {
+      const docRef = await addDoc(collection(db, "bookmarks"), singleBookmark);
+      console.log("Document written with ID: ", docRef.id);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  }
 };
 
 type Data = {
